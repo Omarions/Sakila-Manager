@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:javascript="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Sakila Manager | Dashboard</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css"
+	th:href="@{~/lib/bootstrap/css/bootstrap.min.css}" />
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="../lib/plugins/font-awesome/css/font-awesome.min.css"
+	th:href="@{~/lib/plugins/font-awesome/css/font-awesome.min.css}" />
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="../lib/plugins/Ionicons/css/ionicons.min.css"
+	th:href="@{~/lib/plugins/Ionicons/css/ionicons.min.css}" />
+<!-- Theme style -->
+<link rel="stylesheet" href="../lib/dist/css/AdminLTE.min.css"
+	th:href="@{~/lib/dist/css/AdminLTE.min.css}" />
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+		 folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="../lib/dist/css/skins/skin-blue.min.css"
+	th:href="@{~/lib/dist/css/skins/skin-blue.min.css}" />
+
+<!-- DataTables -->
+<link rel="stylesheet"
+	href="../../lib/plugins/datatables/Responsive-2.2.2/css/responsive.bootstrap4.min.css"
+	th:href="@{~/lib/plugins/datatables/Responsive-2.2.2/css/responsive.bootstrap4.min.css}" />
+<link rel="stylesheet"
+	href="../../lib/plugins/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css"
+	th:href="@{~/lib/plugins/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css}" />
+<!-- DataTables tools column -->
+<link rel="stylesheet" href="../../lib/dist/css/common-styles.css"
+	th:href="@{~/lib/dist/css/common-styles.css}" />
+
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<!-- include header section from the layout file -->
+		<div th:include="layout/header :: header"></div>
+
+		<!-- Left side column. contains side bar -->
+		<!-- include side bar navigation section from the layout file -->
+		<div th:include="layout/sidebarnav :: sidebarnav"></div>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Dashboard <small>Control panel</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Dashboard</li>
+				</ol>
+			</section>
+
+			<section class="content">
+
+				<div class="box box-primary">
+					<div class="box-header">
+
+						<div class="col-sm-10">
+							<h3 class="box-title">Sakila Films List</h3>
+						</div>
+
+						<!-- add new activity button -->
+						<div class="col-sm-2">
+							<a class="btn btn-block btn-primary pull-right" href="#"
+								th:href="@{/sakila/films/film}"><i class="fa fa-plus">
+									Add Film</i></a>
+						</div>
+						<div class="row">
+							<br /><br/>
+						</div>
+						
+						<!-- Error message -->
+						<div th:if="${messageSuccess}" class="row">
+							<div class="col-sm-12">
+								<div class="alert alert-success alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-check"></i> Alert!
+									</h4>
+									<span th:text="${messageSuccess}">Operation success
+										message</span>
+								</div>
+							</div>
+						</div>
+						<div th:if="${messageError}" class="row">
+							<div class="col-sm-12">
+								<div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-ban"></i> Alert!
+									</h4>
+									<span th:text="${messageError}">Error Message</span>
+								</div>
+							</div>
+						</div>
+						<!-- End of Error message -->
+
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="col-sm-12">
+							<table id="films_dt"
+								class="table table-bordered table-striped dataTable dt-responsive no-wrap"
+								role="grid" style="width: 100%;"
+								aria-describedby="films_dt_info">
+
+								<!-- Header of the table -->
+								<thead>
+									<tr role="row">
+										<th class="sorting_asc" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1" aria-sort="ascending"
+											aria-label="ID: activate to sort column descending"
+											style="width: 50px;">ID</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Title activate to sort column ascending"
+											style="width: 266px;">Title</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Description: activate to sort column ascending"
+											style="width: 130px;">Description</th>
+											<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Categories: activate to sort column ascending"
+											style="width: 130px;">Categories</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Release Year: activate to sort column ascending"
+											style="width: 130px;">Release Year</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Language: activate to sort column ascending"
+											style="width: 130px;">Language</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Original Language: activate to sort column ascending"
+											style="width: 130px;">Original Language</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Rental Duration: activate to sort column ascending"
+											style="width: 266px;">Rental Duration</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Rental Rate: activate to sort column ascending"
+											style="width: 266px;">Rental Rate</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Length: activate to sort column ascending"
+											style="width: 266px;">Length</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Replacement Cost: activate to sort column ascending"
+											style="width: 266px;">Replacement Cost</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Rating: activate to sort column ascending"
+											style="width: 266px;">Rating</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Special Features activate to sort column ascending"
+											style="width: 266px;">Special Features</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Last Update: activate to sort column ascending"
+											style="width: 266px;">Last Update</th>
+										<th class="sorting" tabindex="0" aria-controls="films_dt"
+											rowspan="1" colspan="1"
+											aria-label="Tools: activate to sort column ascending"
+											style="width: 130px;">Tools</th>
+									</tr>
+								</thead>
+								<!-- End of header -->
+
+								<!-- Body of the table -->
+								<tbody th:remove="all-but-first">
+									<tr rol="row" th:each="film : ${films}"
+										th:class="${filmStat.odd}? 'odd' : 'even'">
+										<td class="sorting_1" th:text="${film.filmId}">Film ID</td>
+										<td th:text="${film.title}"}>Film Title</td>
+										<td th:text="${film.description}">Description</td>
+										<td th:text="${film.categories.size() > 0}? ${film.categories} : 'N/A'">Categories</td>
+										<td th:text="${film.releaseYear}">Release Year</td>
+										<td th:text="${film.language.name}">Language</td>
+										<td th:text="${film.language.name}">Original Language</td>
+										<td th:text="${film.rentalDuration}">Rental Duration</td>
+										<td th:text="${film.rentalRate}">Rental Rate</td>
+										<td th:text="${film.length}">Length</td>
+										<td th:text="${film.replacementCost}">Replacement Cost</td>
+										<td th:text="${film.rating.rating}">Rating</td>
+										<td th:text="${film.specialFeatures}">Special Features</td>
+										<td th:text="${film.lastUpdate}">Last Update</td>
+										<td>
+											<ul class="dtt">
+												<li>
+													<div class="tools">
+														<a href="#"
+															th:href="@{'/sakila/films/film/' + ${film.filmId}}"><i
+															class="fa fa-edit fa-3x"></i></a> <a href="#"
+															th:href="@{'/sakila/films/film/' + ${film.filmId} + '/delete'}"><i
+															class="fa fa-trash-o fa-3x"></i></a>
+													</div>
+												</li>
+											</ul>
+										</td>
+									</tr>
+									<tr role="row" class="odd">
+										<td class="sorting_1">Gecko</td>
+										<td>Firefox 1.0</td>
+										<td>Win 98+ / OSX.2+</td>
+										<td>1.7</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="even">
+										<td class="sorting_1">Gecko</td>
+										<td>Firefox 1.5</td>
+										<td>Win 98+ / OSX.2+</td>
+										<td>1.8</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="odd">
+										<td class="sorting_1">Gecko</td>
+										<td>Firefox 2.0</td>
+										<td>Win 98+ / OSX.2+</td>
+										<td>1.8</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="even">
+										<td class="sorting_1">Gecko</td>
+										<td>Firefox 3.0</td>
+										<td>Win 2k+ / OSX.3+</td>
+										<td>1.9</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="odd">
+										<td class="sorting_1">Gecko</td>
+										<td>Camino 1.0</td>
+										<td>OSX.2+</td>
+										<td>1.8</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="even">
+										<td class="sorting_1">Gecko</td>
+										<td>Camino 1.5</td>
+										<td>OSX.3+</td>
+										<td>1.8</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="odd">
+										<td class="sorting_1">Gecko</td>
+										<td>Netscape 7.2</td>
+										<td>Win 95+ / Mac OS 8.6-9.2</td>
+										<td>1.7</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="even">
+										<td class="sorting_1">Gecko</td>
+										<td>Netscape Browser 8</td>
+										<td>Win 98SE+</td>
+										<td>1.7</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="odd">
+										<td class="sorting_1">Gecko</td>
+										<td>Netscape Navigator 9</td>
+										<td>Win 98+ / OSX.2+</td>
+										<td>1.8</td>
+										<td>A</td>
+									</tr>
+									<tr role="row" class="even">
+										<td class="sorting_1">Gecko</td>
+										<td>Mozilla 1.0</td>
+										<td>Win 95+ / OSX.1+</td>
+										<td>1</td>
+										<td>A</td>
+									</tr>
+								</tbody>
+								<!-- End of body -->
+
+								<!-- Footer of the table -->
+								<tfoot>
+									<tr>
+										<th rowspan="1" colspan="1">ID</th>
+										<th rowspan="1" colspan="1">Title</th>
+										<th rowspan="1" colspan="1">Description</th>
+										<th rowspan="1" colspan="1">Categories</th>
+										<th rowspan="1" colspan="1">Release Year</th>
+										<th rowspan="1" colspan="1">Language</th>
+										<th rowspan="1" colspan="1">Original Language</th>
+										<th rowspan="1" colspan="1">Rental Duration</th>
+										<th rowspan="1" colspan="1">Rental Rate</th>
+										<th rowspan="1" colspan="1">Length</th>
+										<th rowspan="1" colspan="1">Replacement Cost</th>
+										<th rowspan="1" colspan="1">Rating</th>
+										<th rowspan="1" colspan="1">Special Features</th>
+										<th rowspan="1" colspan="1">Last Update</th>
+										<th rowspan="1" colspan="1">Tools</th>
+									</tr>
+								</tfoot>
+								<!-- End of footer -->
+
+							</table>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
+
+			</section>
+		</div>
+	</div>
+	<!-- include footer section from the layout file -->
+	<div th:include="layout/footer :: footer"></div>
+	
+	<!-- jQuery 3.3.1 -->
+<script src="../../static/lib/plugins/jQuery/dist/jquery.min.js"
+	th:src="@{~/lib/plugins/jQuery/jquery-3.3.1.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+	th:src="@{~/lib/bootstrap/js/bootstrap.min.js}"></script>
+
+<!-- DataTables -->
+<script src="../../static/lib/plugins/datatables/DataTables-1.10.18/js/juery.dataTables.min.js"
+        th:src="@{~/lib/plugins/datatables/DataTables-1.10.18/js/jquery.dataTables.min.js}"></script>
+<script src="../../static/lib/plugins/datatables/DataTables-1.10.18/js/dataTables.bootstrap.min.js"
+        th:src="@{~/lib/plugins/datatables/DataTables-1.10.18/js/dataTables.bootstrap.min.js}"></script>
+<!-- Responsive extension for DataTables -->
+<script src="../../static/lib/plugins/datatables/Responsive-2.2.2/js/dataTables.responsive.min.js"
+        th:src="@{~/lib/plugins/datatables/Responsive-2.2.2/js/dataTables.responsive.min.js}"></script>
+
+<!-- AdminLTE App -->
+<script src="../../static/lib/dist/js/adminlte.min.js"
+	th:src="@{~/lib/dist/js/adminlte.min.js}"></script>
+<script>
+	$(function(){
+		$("#films_dt").DataTable();
+	});
+</script>
+</body>
+
+</html>

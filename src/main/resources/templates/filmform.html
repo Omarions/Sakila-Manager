@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:javascript="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Sakila Manager | Dashboard</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport" />
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css"
+	th:href="@{~/lib/bootstrap/css/bootstrap.min.css}" />
+<!-- google fonts -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="../lib/plugins/font-awesome/css/font-awesome.min.css"
+	th:href="@{~/lib/plugins/font-awesome/css/font-awesome.min.css}" />
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="../lib/plugins/Ionicons/css/ionicons.min.css"
+	th:href="@{~/lib/plugins/Ionicons/css/ionicons.min.css}" />
+<!-- Theme style -->
+<link rel="stylesheet" href="../lib/dist/css/AdminLTE.min.css"
+	th:href="@{~/lib/dist/css/AdminLTE.min.css}" />
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+		 folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="../lib/dist/css/skins/skin-blue.min.css"
+	th:href="@{~/lib/dist/css/skins/skin-blue.min.css}" />
+<!-- bootstrap wysihtml5 - text editor -->
+<link rel="stylesheet"
+	href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
+	th:href="@{~/lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}" />
+
+<!-- bootstrap datepicker -->
+<link rel="stylesheet"
+	href="../../lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"
+	th:href="@{~/lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css}">
+<!-- Select2 -->
+<link rel="stylesheet"
+	href="../../lib/plugins/select2/css/select2.min.css"
+	th:href="@{~/lib/plugins/select2/css/select2.min.css}" />
+<!-- Bootstrap Time picker -->
+<link rel="stylesheet"
+	href="../../lib/plugins/timepicker/bootstrap-timepicker.css"
+	th:href="@{~/lib/plugins/timepicker/bootstrap-timepicker.css}" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<!-- include header section from the layout file -->
+		<div th:include="layout/header :: header"></div>
+
+		<!-- Left side column. contains side bar -->
+		<!-- include side bar navigation section from the layout file -->
+		<div th:include="layout/sidebarnav :: sidebarnav"></div>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				Dashboard
+				<small>Control panel</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="#" th:href="@{/home}"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active"> Film Form</li>
+			</ol>
+		</section>
+
+				<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title"><i class="fa fa-university" aria-hidden="true"></i> Film Form</h3>
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="frmRegisteredCourse" class="form-horizontal" action="#"
+						      th:action="@{/sakila/films/film}"
+						      th:object="${film}" method="post">
+
+							<input type="hidden" th:field="*{filmId}"/>
+
+							<div class="box-body">
+								<!-- input for title -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('title')}? 'has-error'">
+									<label for="inputTitle" class="col-sm-2 control-label">Title</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputTitle"
+										       placeholder="Title"
+										       th:field="*{title}"/>
+										<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+										      th:class="help-block">Title Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-title -->
+
+								<!-- input for release year -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('releaseYear')}? 'has-error'">
+									<label for="inputReleaseYear" class="col-sm-2 control-label">Release Year</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputReleaseYear"
+										       placeholder="Release Year"
+										       th:field="*{releaseYear}"/>
+										<span th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"
+										      th:class="help-block">Release Year Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-release year -->
+								
+								<!-- Dropdown list for languages -->
+								<div class="form-group"
+								     th:classappend="${#fields.hasErrors('categories')} ? 'has-error'">
+									<label for="select-language" class="col-sm-2 control-label">Categories</label>
+
+									<div class="col-sm-10">
+										<select id="select-categories"
+										        class="form-control select2 select2-hidden-accessible"
+										        multiple style="width: 100%;"
+										        tabindex="-1" aria-hidden="true" th:field="*{categories}"
+										>
+											<option value="" text="Select Categories">Select Categories</option>
+											<option th:each="category : ${categories}"
+											        th:value="${category.categoryId}" th:text="${category.name}">activity name
+											</option>
+
+										</select>
+										<span th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}"
+										      th:class="help-block">Categories Error</span>
+									</div>
+								</div>
+								<!-- / .languages-dropdown-list -->
+								
+								
+								<!-- Dropdown list for languages -->
+								<div class="form-group"
+								     th:classappend="${#fields.hasErrors('language')} ? 'has-error'">
+									<label for="select-language" class="col-sm-2 control-label">Language</label>
+
+									<div class="col-sm-10">
+										<select id="select-language"
+										        class="form-control select2 select2-hidden-accessible"
+										        style="width: 100%;"
+										        tabindex="-1" aria-hidden="true" th:field="*{language}"
+										>
+											<option value="" text="Select Language">Select Language</option>
+											<option th:each="lang : ${languages}"
+											        th:value="${lang.languageId}" th:text="${lang.name}">activity name
+											</option>
+
+										</select>
+										<span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"
+										      th:class="help-block">Language Error</span>
+									</div>
+								</div>
+								<!-- / .languages-dropdown-list -->
+
+								<!-- Dropdown list for original language -->
+								<div class="form-group"
+								     th:classappend="${#fields.hasErrors('originalLang')}? 'has-error'">
+									<label for="select-originalLang" class="col-sm-2 control-label">Original Language</label>
+
+									<div class="col-sm-10">
+										<select id="select-originalLang"
+										        class="form-control select2 select2-hidden-accessible"
+										        style="width: 100%;"
+										        tabindex="-1" aria-hidden="true"
+										        th:field="*{originalLang}">
+											<option value="" text="Select Original Language" selected>Select
+											                                                Original Language
+											</option>
+											<option th:each="lang : ${languages}"
+											        th:value="${lang.languageId}"
+											        th:text="${lang.name}">Original Language Name
+											</option>
+										</select>
+										<span th:if="${#fields.hasErrors('originalLang')}"
+										      th:errors="*{originalLang}"
+										      th:class="help-block">Original Language Error</span>
+									</div>
+								</div>
+								<!-- / .original language-dropdown-list -->
+
+								<!-- input for renal duration -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('rentalDuration')}? 'has-error'">
+									<label for="inputRentalDuration" class="col-sm-2 control-label">RentalDuration</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputRentalDuration"
+										       placeholder="Rental Duration"
+										       th:field="*{rentalDuration}"/>
+										<span th:if="${#fields.hasErrors('rentalDuration')}" th:errors="*{rentalDuration}"
+										      th:class="help-block">rentalDuration Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-rental duration -->
+
+								<!-- input for renal rate -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('rentalRate')}? 'has-error'">
+									<label for="inputRentalRate" class="col-sm-2 control-label">Rental Rate</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputRentalRate"
+										       placeholder="Rental Rate"
+										       th:field="*{rentalRate}"/>
+										<span th:if="${#fields.hasErrors('rentalRate')}" th:errors="*{rentalRate}"
+										      th:class="help-block">Rental Rate Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-rental rate -->
+								
+								<!-- input for length -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('rentalRate')}? 'has-error'">
+									<label for="inputLength" class="col-sm-2 control-label">Length</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputLength"
+										       placeholder="Length"
+										       th:field="*{length}"/>
+										<span th:if="${#fields.hasErrors('length')}" th:errors="*{length}"
+										      th:class="help-block">Length Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-length -->
+								
+								<!-- input for replacement cost -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('replacementCost')}? 'has-error'">
+									<label for="inputReplacementCost" class="col-sm-2 control-label">Replacement Cost</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputReplacementCost"
+										       placeholder="Replacement Cost"
+										       th:field="*{replacementCost}"/>
+										<span th:if="${#fields.hasErrors('replacementCost')}" th:errors="*{replacementCost}"
+										      th:class="help-block">Replacement Cost Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-replacement cost -->
+
+								<!-- Dropdown list for rating -->
+								<div class="form-group"
+								     th:classappend="${#fields.hasErrors('rating')}? 'has-error'">
+									<label for="select-rating" class="col-sm-2 control-label">Rating</label>
+
+									<div class="col-sm-10">
+										<select id="select-rating"
+										        class="form-control select2 select2-hidden-accessible"
+										        data-placeholder="Select Rating" style="width: 100%;"
+										        tabindex="-1" aria-hidden="true"
+										        th:field="*{rating}">
+											<option value="" text="Select Rating" selected>Select
+											                                                Rating
+											</option>
+											<option th:each="rtg : ${ratings}"
+											        th:value="${rtg}"
+											        th:text="${rtg.rating}">Rating
+											</option>
+										</select>
+										<span th:if="${#fields.hasErrors('rating')}"
+										      th:errors="*{rating}"
+										      th:class="help-block">Rating Error</span>
+									</div>
+								</div>
+								<!-- /.input-for-rating -->
+								
+								<!-- Dropdown list for special features -->
+								<div class="form-group"
+								     th:classappend="${#fields.hasErrors('specialFeatures')}? 'has-error'">
+									<label for="select-specialFeatures" class="col-sm-2 control-label">Special Features</label>
+
+									<div class="col-sm-10">
+										<select id="select-specialFeatures"
+										        class="form-control select2 select2-hidden-accessible"
+										        data-placeholder="Select Special Feature" style="width: 100%;"
+										        multiple tabindex="-1" aria-hidden="true"
+										        th:field="*{specialFeatures}">
+											<option value="" text="Select Special Feature" selected>Select Special Features
+											</option>
+											<option th:each="sf : ${specialFeatures}"
+											        th:value="${sf}"
+											        th:text="${sf.specialFeature}">Special Feature
+											</option>
+										</select>
+										<span th:if="${#fields.hasErrors('specialFeatures')}"
+										      th:errors="*{specialFeatures}"
+										      th:class="help-block">Special Feature Error</span>
+									</div>
+								</div>
+								<!-- /.input-for-specailFeature -->
+								
+								<!-- input for last update -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('lastUpdate')}? 'has-error'">
+									<label for="inputLastUpdate" class="col-sm-2 control-label">Last Update</label>
+
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="inputLastUpdate"
+										       placeholder="Last Update"
+										       th:field="*{lastUpdate}"/>
+										<span th:if="${#fields.hasErrors('lastUpdate')}" th:errors="*{lastUpdate}"
+										      th:class="help-block">Last Update Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-length -->
+
+								<!-- input for description -->
+								<div th:class="form-group"
+								     th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+									<label for="inputDescription" class="col-sm-2 control-label">description</label>
+
+									<div class="col-sm-10">
+										<textarea type="textarea" class="form-control" id="inputDescription"
+											          placeholder="Add description"
+											          th:field="*{description}">Film Description</textarea>
+										<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+										      th:class="help-block">Description Errors</span>
+									</div>
+								</div>
+								<!-- /.input-for-description -->
+							<!-- /.box-body -->
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary  pull-right"><i class="fa fa-save"></i>
+									Save
+								</button>
+							</div>
+							<!-- /.box-footer -->
+						</form>
+					</div>
+					<!-- /.form-box -->
+				</div>
+			</div>
+		</section>
+		<!-- /.content -->
+		</div>
+	</div>
+	<!-- include footer section from the layout file -->
+	<div th:include="layout/footer :: footer"></div>
+
+	<!-- jQuery 3.3.1 -->
+	<script src="../../static/lib/plugins/jQuery/dist/jquery.min.js"
+		th:src="@{~/lib/plugins/jQuery/jquery-3.3.1.min.js}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+		th:src="@{~/lib/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- Select2 -->
+	<script src="../../lib/plugins/select2/js/select2.full.min.js"
+        th:src="@{~/lib/plugins/select2/js/select2.full.min.js}"></script>
+	<!-- Bootstrap WYSIHTML5 -->
+	<script src="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
+        th:src="@{~/lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script src="../../static/lib/dist/js/adminlte.min.js"
+		th:src="@{~/lib/dist/js/adminlte.min.js}"></script>
+	<script>
+		$(function() {
+			//bootstrap WYSIHTML5 - text editor
+	        $("#inputDescription").wysihtml5();
+			$("#select-rating").select2();
+			$("#select-language").select2();
+			$("#select-originalLang").select2();
+			$("#select-categories").select2();
+			$("#select-specialFeatures").select2();
+		});
+	</script>
+</body>
+
+</html>
