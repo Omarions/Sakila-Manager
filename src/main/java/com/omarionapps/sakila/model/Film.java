@@ -20,56 +20,58 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Film {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="film_id", columnDefinition="TINYINT")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "film_id", columnDefinition = "TINYINT")
 	private int filmId;
-	@NotEmpty(message="Required Field")
+	@NotEmpty(message = "Required Field")
 	@NotNull
 	private String title;
 	private String description;
-	@Column(name="release_year")
+	@Column(name = "release_year")
 	private int releaseYear;
 	@ManyToOne
-	@JoinColumn(name="language_id", referencedColumnName="language_id")
-	@NotNull(message="Required Field")
+	@JoinColumn(name = "language_id", referencedColumnName = "language_id")
+	@NotNull(message = "Required Field")
 	private Language language;
 	@ManyToOne
-	@JoinColumn(name="original_language_id", referencedColumnName="language_id")
+	@JoinColumn(name = "original_language_id", referencedColumnName = "language_id")
 	private Language originalLang;
-	@Column(name="rental_duration", columnDefinition="TINYINT")
-	@NotNull(message="Required Field")
+	@Column(name = "rental_duration", columnDefinition = "TINYINT")
+	@NotNull(message = "Required Field")
 	private int rentalDuration;
-	@Column(name="rental_rate")
-	@NotNull(message="Required Field")
+	@Column(name = "rental_rate")
+	@NotNull(message = "Required Field")
 	private BigDecimal rentalRate;
 	private int length;
-	@Column(name="replacement_cost")
-	@NotNull(message="Required Field")
+	@Column(name = "replacement_cost")
+	@NotNull(message = "Required Field")
 	private BigDecimal replacementCost;
-	@Convert(converter=RatingConverter.class)
+	@Convert(converter = RatingConverter.class)
 	private Rating rating;
-	@Convert(converter=SpecialFeaturesConverter.class)
+	@Convert(converter = SpecialFeaturesConverter.class)
 	private EnumSet<SpecialFeatures> specialFeatures;
-	@Column(name="last_update")
-	@NotNull(message="Required Field")
+	@Column(name = "last_update")
+	@NotNull(message = "Required Field")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/M/yyyy hh:mm:ss a")
 	private LocalDateTime lastUpdate;
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(
-			name="film_category",
-			joinColumns=@JoinColumn(name="film_id"),
-			inverseJoinColumns=@JoinColumn(name="category_id")
-	)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "film_category", joinColumns = @JoinColumn(name = "film_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
-	
+
 	public Film() {
-		
+
 	}
 
 	public int getFilmId() {
@@ -159,7 +161,7 @@ public class Film {
 	public void setRating(Rating rating) {
 		this.rating = rating;
 	}
-	
+
 	public EnumSet<SpecialFeatures> getSpecialFeatures() {
 		return specialFeatures;
 	}
@@ -213,7 +215,5 @@ public class Film {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }
