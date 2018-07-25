@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//customize authorization to authorize every request with role 'USER' and customized login form also implement logout process.
 		http
 		.authorizeRequests()
-			.antMatchers("/**")
+			.antMatchers("/")
 			.hasRole("USER")
 			.anyRequest()
 			.authenticated()
