@@ -2,32 +2,29 @@ package com.omarionapps.sakila.model;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-
+/**
+ * An attribute converter for Rating Enum
+ * 
+ * @author Omarion
+ *
+ */
 @Converter
 public class RatingConverter implements AttributeConverter<Rating, String> {
 
+	/**
+	 * Return the string from Rating Enum
+	 */
 	@Override
 	public String convertToDatabaseColumn(Rating rating) {
-		System.out.println("Rating: " + rating.toString());
 		return rating.getRating();
 	}
 
+	/**
+	 * Return Rating Enum from string value.
+	 */
 	@Override
 	public Rating convertToEntityAttribute(String value) {
-		switch (value) {
-		case "G":
-			return Rating.G;
-		case "PG":
-			return Rating.PG;
-		case "PG-13":
-			return Rating.PG13;
-		case "R":
-			return Rating.R;
-		case "NC-17":
-			return Rating.NC17;
-				
-		}
-		return null;
+		return Rating.findByKey(value);
 		
 	}
 

@@ -13,6 +13,10 @@ public class LanguageService {
 	@Autowired
 	private LanguageRepository languageRepository;
 	
+	/**
+	 * Get all languages ordered by its ID
+	 * @return List<Language> in the table ordered by ID
+	 */
 	public List<Language> findAllByOrderByLanguageId(){
 		return languageRepository.findAllByOrderByLanguageId();
 	}

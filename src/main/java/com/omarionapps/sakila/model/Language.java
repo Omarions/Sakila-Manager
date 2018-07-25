@@ -1,5 +1,6 @@
 package com.omarionapps.sakila.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
-public class Language {
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+public class Language implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="language_id", columnDefinition="TINYINT")
@@ -54,6 +58,7 @@ public class Language {
 		this.lastUpdate = lastUpdate;
 	}
 
+	@JsonIgnore
 	public Set<Film> getFilms() {
 		return films;
 	}
@@ -61,7 +66,8 @@ public class Language {
 	public void setFilms(Set<Film> films) {
 		this.films = films;
 	}
-
+	
+	@JsonIgnore
 	public Set<Film> getOrgFilms() {
 		return orgFilms;
 	}

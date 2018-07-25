@@ -35,11 +35,6 @@
 <link rel="stylesheet"
 	href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
 	th:href="@{~/lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}" />
-
-<!-- bootstrap datepicker -->
-<link rel="stylesheet"
-	href="../../lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"
-	th:href="@{~/lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css}">
 <!-- Select2 -->
 <link rel="stylesheet"
 	href="../../lib/plugins/select2/css/select2.min.css"
@@ -97,10 +92,11 @@
 							<input type="hidden" th:field="*{filmId}"/>
 
 							<div class="box-body">
+							
 								<!-- input for title -->
 								<div th:class="form-group"
 								     th:classappend="${#fields.hasErrors('title')}? 'has-error'">
-									<label for="inputTitle" class="col-sm-2 control-label">Title</label>
+									<label for="inputTitle" class="col-sm-2 control-label">Title <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<input type="text" class="form-control" id="inputTitle"
@@ -119,7 +115,7 @@
 
 									<div class="col-sm-10">
 										<input type="text" class="form-control" id="inputReleaseYear"
-										       placeholder="Release Year"
+										       placeholder="2000"
 										       th:field="*{releaseYear}"/>
 										<span th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"
 										      th:class="help-block">Release Year Errors</span>
@@ -130,15 +126,14 @@
 								<!-- Dropdown list for languages -->
 								<div class="form-group"
 								     th:classappend="${#fields.hasErrors('categories')} ? 'has-error'">
-									<label for="select-language" class="col-sm-2 control-label">Categories</label>
+									<label for="select-language" class="col-sm-2 control-label">Categories <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<select id="select-categories"
 										        class="form-control select2 select2-hidden-accessible"
 										        multiple style="width: 100%;"
-										        tabindex="-1" aria-hidden="true" th:field="*{categories}"
-										>
-											<option value="" text="Select Categories">Select Categories</option>
+										        tabindex="-1" aria-hidden="true" th:field="*{categories}">
+											
 											<option th:each="category : ${categories}"
 											        th:value="${category.categoryId}" th:text="${category.name}">activity name
 											</option>
@@ -154,17 +149,15 @@
 								<!-- Dropdown list for languages -->
 								<div class="form-group"
 								     th:classappend="${#fields.hasErrors('language')} ? 'has-error'">
-									<label for="select-language" class="col-sm-2 control-label">Language</label>
+									<label for="select-language" class="col-sm-2 control-label">Language <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<select id="select-language"
 										        class="form-control select2 select2-hidden-accessible"
 										        style="width: 100%;"
-										        tabindex="-1" aria-hidden="true" th:field="*{language}"
-										>
-											<option value="" text="Select Language">Select Language</option>
+										        tabindex="-1" aria-hidden="true" th:field="*{language}">
 											<option th:each="lang : ${languages}"
-											        th:value="${lang.languageId}" th:text="${lang.name}">activity name
+											        th:value="${lang.languageId}" th:text="${lang.name}">Language name
 											</option>
 
 										</select>
@@ -185,9 +178,6 @@
 										        style="width: 100%;"
 										        tabindex="-1" aria-hidden="true"
 										        th:field="*{originalLang}">
-											<option value="" text="Select Original Language" selected>Select
-											                                                Original Language
-											</option>
 											<option th:each="lang : ${languages}"
 											        th:value="${lang.languageId}"
 											        th:text="${lang.name}">Original Language Name
@@ -203,14 +193,14 @@
 								<!-- input for renal duration -->
 								<div th:class="form-group"
 								     th:classappend="${#fields.hasErrors('rentalDuration')}? 'has-error'">
-									<label for="inputRentalDuration" class="col-sm-2 control-label">RentalDuration</label>
+									<label for="inputRentalDuration" class="col-sm-2 control-label">Rental Duration <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<input type="text" class="form-control" id="inputRentalDuration"
-										       placeholder="Rental Duration"
+										       placeholder="3"
 										       th:field="*{rentalDuration}"/>
 										<span th:if="${#fields.hasErrors('rentalDuration')}" th:errors="*{rentalDuration}"
-										      th:class="help-block">rentalDuration Errors</span>
+										      th:class="help-block">Rental Duration Errors</span>
 									</div>
 								</div>
 								<!-- /.input-for-rental duration -->
@@ -218,11 +208,11 @@
 								<!-- input for renal rate -->
 								<div th:class="form-group"
 								     th:classappend="${#fields.hasErrors('rentalRate')}? 'has-error'">
-									<label for="inputRentalRate" class="col-sm-2 control-label">Rental Rate</label>
+									<label for="inputRentalRate" class="col-sm-2 control-label">Rental Rate <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<input type="text" class="form-control" id="inputRentalRate"
-										       placeholder="Rental Rate"
+										       placeholder="4.99"
 										       th:field="*{rentalRate}"/>
 										<span th:if="${#fields.hasErrors('rentalRate')}" th:errors="*{rentalRate}"
 										      th:class="help-block">Rental Rate Errors</span>
@@ -248,11 +238,11 @@
 								<!-- input for replacement cost -->
 								<div th:class="form-group"
 								     th:classappend="${#fields.hasErrors('replacementCost')}? 'has-error'">
-									<label for="inputReplacementCost" class="col-sm-2 control-label">Replacement Cost</label>
+									<label for="inputReplacementCost" class="col-sm-2 control-label">Replacement Cost <span class="required">*</span></label>
 
 									<div class="col-sm-10">
 										<input type="text" class="form-control" id="inputReplacementCost"
-										       placeholder="Replacement Cost"
+										       placeholder="19.99"
 										       th:field="*{replacementCost}"/>
 										<span th:if="${#fields.hasErrors('replacementCost')}" th:errors="*{replacementCost}"
 										      th:class="help-block">Replacement Cost Errors</span>
@@ -261,8 +251,7 @@
 								<!-- /.input-for-replacement cost -->
 
 								<!-- Dropdown list for rating -->
-								<div class="form-group"
-								     th:classappend="${#fields.hasErrors('rating')}? 'has-error'">
+								<div class="form-group">
 									<label for="select-rating" class="col-sm-2 control-label">Rating</label>
 
 									<div class="col-sm-10">
@@ -271,17 +260,13 @@
 										        data-placeholder="Select Rating" style="width: 100%;"
 										        tabindex="-1" aria-hidden="true"
 										        th:field="*{rating}">
-											<option value="" text="Select Rating" selected>Select
-											                                                Rating
-											</option>
+											<option value="" selected>Select Rating</option>
 											<option th:each="rtg : ${ratings}"
 											        th:value="${rtg}"
 											        th:text="${rtg.rating}">Rating
 											</option>
 										</select>
-										<span th:if="${#fields.hasErrors('rating')}"
-										      th:errors="*{rating}"
-										      th:class="help-block">Rating Error</span>
+										
 									</div>
 								</div>
 								<!-- /.input-for-rating -->
@@ -297,8 +282,7 @@
 										        data-placeholder="Select Special Feature" style="width: 100%;"
 										        multiple tabindex="-1" aria-hidden="true"
 										        th:field="*{specialFeatures}">
-											<option value="" text="Select Special Feature" selected>Select Special Features
-											</option>
+											<option value="" selected>Select Special Features</option>
 											<option th:each="sf : ${specialFeatures}"
 											        th:value="${sf}"
 											        th:text="${sf.specialFeature}">Special Feature
@@ -310,21 +294,6 @@
 									</div>
 								</div>
 								<!-- /.input-for-specailFeature -->
-								
-								<!-- input for last update -->
-								<div th:class="form-group"
-								     th:classappend="${#fields.hasErrors('lastUpdate')}? 'has-error'">
-									<label for="inputLastUpdate" class="col-sm-2 control-label">Last Update</label>
-
-									<div class="col-sm-10">
-										<input type="text" class="form-control" id="inputLastUpdate"
-										       placeholder="Last Update"
-										       th:field="*{lastUpdate}"/>
-										<span th:if="${#fields.hasErrors('lastUpdate')}" th:errors="*{lastUpdate}"
-										      th:class="help-block">Last Update Errors</span>
-									</div>
-								</div>
-								<!-- /.input-for-length -->
 
 								<!-- input for description -->
 								<div th:class="form-group"
@@ -332,7 +301,7 @@
 									<label for="inputDescription" class="col-sm-2 control-label">description</label>
 
 									<div class="col-sm-10">
-										<textarea type="textarea" class="form-control" id="inputDescription"
+										<textarea class="form-control" id="inputDescription"
 											          placeholder="Add description"
 											          th:field="*{description}">Film Description</textarea>
 										<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
@@ -340,7 +309,9 @@
 									</div>
 								</div>
 								<!-- /.input-for-description -->
+							</div>	
 							<!-- /.box-body -->
+							
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary  pull-right"><i class="fa fa-save"></i>
 									Save
@@ -378,11 +349,21 @@
 		$(function() {
 			//bootstrap WYSIHTML5 - text editor
 	        $("#inputDescription").wysihtml5();
-			$("#select-rating").select2();
-			$("#select-language").select2();
-			$("#select-originalLang").select2();
-			$("#select-categories").select2();
-			$("#select-specialFeatures").select2();
+			$("#select-rating").select2({
+				placeholder: 'Select Rating'
+			});
+			$("#select-language").select2({
+				placeholder: 'Select Language'
+			});
+			$("#select-originalLang").select2({
+				placheholder: 'Select Original Language'
+			});
+			$("#select-categories").select2({
+				placeholder: 'Select Categories'
+			});
+			$("#select-specialFeatures").select2({
+				placeholder: 'Select Special Features'
+			});
 		});
 	</script>
 </body>

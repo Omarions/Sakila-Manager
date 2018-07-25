@@ -1,5 +1,6 @@
 package com.omarionapps.sakila.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,16 +11,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Category {
+public class Category implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="category_id", columnDefinition="TINYINT")
 	private int categoryId;
+	@NotNull
 	private String name;
 	@Column(name="last_update")
+	@NotNull
 	private Date lastUpdate;
 	@ManyToMany(mappedBy="categories")
 	Set<Film> films = new HashSet<>();
@@ -51,8 +58,7 @@ public class Category {
 		this.lastUpdate = lastUpdate;
 	}
 	
-	
-
+	@JsonIgnore
 	public Set<Film> getFilms() {
 		return films;
 	}

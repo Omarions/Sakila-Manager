@@ -14,22 +14,38 @@ public class FilmService {
 	@Autowired
 	private FilmRepository filmRepository;
 
+	/**
+	 * Get all films ordered by its ID
+	 * @return List<Film> in the table ordered by ID
+	 */
 	public List<Film> findAllByOrderById(){
-		return filmRepository.findAllByOrderByFilmId();
+		List<Film> list = filmRepository.findAllByOrderByFilmId();
+		System.out.println("List: " + list);
+		return list;
 	}
 	
-	public List<Film> findAllByOrderByTitle(){
-		return filmRepository.findAllByOrderByTitle();
-	}
-	
+	/**
+	 * Get film by its ID
+	 * @param id to search with
+	 * @return optional object
+	 */
 	public Optional<Film> findById(int id) {
 		return filmRepository.findById(id);
 	}
 	
+	/**
+	 * Save the film whether new or update old one.
+	 * @param film to be saved
+	 * @return the saved film
+	 */
 	public Film save(Film film) {
 		return filmRepository.save(film);
 	}
 	
+	/**
+	 * Delete the film
+	 * @param film to be deleted.
+	 */
 	public void delete(Film film) {
 		filmRepository.delete(film);
 	}
