@@ -69,16 +69,16 @@ public class HomeController {
 	 * @return the film form page
 	 */
 	@GetMapping("/sakila/films/film/{filmId}")
-	public ModelAndView getFilmForm(@PathVariable(name="filmId") int filmId){
-		ModelAndView model = new ModelAndView("filmform");
+	public String getFilmForm(@PathVariable(name="filmId") int filmId, Model model){
+		
 		Optional<Film> optFilm = filmService.findById(filmId);
 		//check if the film is existed
 		if(optFilm.isPresent()) {
 			prepareModel(model, optFilm.get());
 		}else {
-			model.addObject("messageError", "Film with ID(" + filmId + ") not found...");
+			model.addAttribute("messageError", "Film with ID(" + filmId + ") not found...");
 		}
-		return model;
+		return "filmform";
 	}
 	
 	/**
@@ -86,11 +86,10 @@ public class HomeController {
 	 * @return film form page
 	 */
 	@GetMapping("/sakila/films/film")
-	public ModelAndView getFilmForm(){
-		ModelAndView model = new ModelAndView("filmform");
+	public String getFilmForm(Model model){
 		prepareModel(model, new Film());
 		
-		return model;
+		return "filmform";
 	}
 	
 	/**
@@ -121,8 +120,9 @@ public class HomeController {
 	 * @return whether the film form again if there is any errors or the home path if the operation is success
 	 */
 	@PostMapping("/sakila/films/film")
-	public String saveFilm(@Valid Film film, RedirectAttributes redirectAttrs, BindingResult bindingResult){
+	public String saveFilm(@Valid Film film, BindingResult bindingResult, RedirectAttributes redirectAttrs, Model model){
 		if(bindingResult.hasErrors()) {
+			prepareModel(model, film);
 			return "filmform";
 		}else {
 			Film savedFilm = filmService.save(film);
@@ -138,11 +138,11 @@ public class HomeController {
 	 * @param model to hold data to the view
 	 * @param film the film object to be sent in the model.
 	 */
-	private void prepareModel(ModelAndView model, Film film) {
-		model.addObject("film", film);
-		model.addObject("languages", languageService.findAllByOrderByLanguageId());
-		model.addObject("ratings", Rating.values());
-		model.addObject("specialFeatures", SpecialFeatures.values());
-		model.addObject("categories", CategoryService.findAllByOrderByCategoryId());
+	private void prepareModel(Model model, Film film) {
+		model.addAttribute("film", film);
+		model.addAttribute("languages", languageService.findAllByOrderByLanguageId());
+		model.addAttribute("ratings", Rating.values());
+		model.addAttribute("specialFeatures", SpecialFeatures.values());
+		model.addAttribute("categories", CategoryService.findAllByOrderByCategoryId());
 	}
 }

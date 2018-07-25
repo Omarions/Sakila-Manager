@@ -75,6 +75,7 @@ public class Film implements Serializable {
 	@DecimalMin(value="0.00")
 	@DecimalMax(value="99.99")
 	private BigDecimal rentalRate;
+	@Column(name="length")
 	private int length;
 	@Column(name = "replacement_cost")
 	@NotNull(message = "Required Field")

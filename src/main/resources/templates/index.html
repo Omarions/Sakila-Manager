@@ -212,7 +212,7 @@
 										<td th:text="${film.length}">Length</td>
 										<td th:text="${film.replacementCost}">Replacement Cost</td>
 										<td>
-											<span class="label label-primary" th:text="${film.rating.rating}">Rating</span>
+											<span class="label label-primary" th:text="(${film.rating} == null)? 'N/A' : ${film.rating}">Rating</span>
 										</td>
 										<td>
 											<ul class="dtt" th:remove="all-but-first">

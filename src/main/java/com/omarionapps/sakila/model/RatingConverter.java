@@ -16,7 +16,11 @@ public class RatingConverter implements AttributeConverter<Rating, String> {
 	 */
 	@Override
 	public String convertToDatabaseColumn(Rating rating) {
-		return rating.getRating();
+		if(rating != null)
+			return rating.getRating();
+		
+		return null;
+				
 	}
 
 	/**
